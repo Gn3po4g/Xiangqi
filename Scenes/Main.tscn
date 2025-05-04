@@ -1,0 +1,65 @@
+[gd_scene load_steps=5 format=3 uid="uid://drrtpdifm3jva"]
+
+[ext_resource type="PackedScene" uid="uid://c746gvq81rpxo" path="res://Scenes/Board/Board.tscn" id="1_v1gob"]
+[ext_resource type="Theme" uid="uid://cipaje0juqv5p" path="res://Resources/DefaultTheme.tres" id="2_jw32o"]
+[ext_resource type="Texture2D" uid="uid://c3hl2471t5hfv" path="res://Assets/Images/black_computer.svg" id="3_50glp"]
+[ext_resource type="Texture2D" uid="uid://d3b2w3lt7v2i4" path="res://Assets/Images/red_computer.svg" id="5_bmxlf"]
+
+[node name="Main" type="Node2D"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+anchor_mode = 0
+enabled = false
+
+[node name="Board" parent="." instance=ExtResource("1_v1gob")]
+position = Vector2(0, 150)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -10.0
+offset_top = 10.0
+offset_right = 670.0
+offset_bottom = 110.0
+grow_horizontal = 2
+theme = ExtResource("2_jw32o")
+
+[node name="Button" type="Button" parent="CanvasLayer/Control/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+text = "重置棋盘"
+
+[node name="BlackAiToggle" type="Button" parent="CanvasLayer/Control/HBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+tooltip_text = "电脑执黑"
+theme_override_font_sizes/font_size = 50
+toggle_mode = true
+icon = ExtResource("3_50glp")
+icon_alignment = 1
+
+[node name="RedAiToggle" type="Button" parent="CanvasLayer/Control/HBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+tooltip_text = "电脑执红"
+theme_override_font_sizes/font_size = 50
+toggle_mode = true
+icon = ExtResource("5_bmxlf")
+icon_alignment = 1
+
+[connection signal="pressed" from="CanvasLayer/Control/HBoxContainer/Button" to="Board" method="ResetBoard"]
+[connection signal="pressed" from="CanvasLayer/Control/HBoxContainer/Button" to="CanvasLayer/Control/HBoxContainer/BlackAiToggle" method="Off"]
+[connection signal="pressed" from="CanvasLayer/Control/HBoxContainer/Button" to="CanvasLayer/Control/HBoxContainer/RedAiToggle" method="Off"]
+[connection signal="toggled" from="CanvasLayer/Control/HBoxContainer/BlackAiToggle" to="Board" method="ToggleBlackAi"]
+[connection signal="toggled" from="CanvasLayer/Control/HBoxContainer/RedAiToggle" to="Board" method="ToggleRedAi"]

@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://dhj1q7iiytgdf"]
+
+[ext_resource type="PackedScene" uid="uid://rdf0m5pfhmvf" path="res://Scenes/Board/Pieces/Piece.tscn" id="1_h8jd4"]
+[ext_resource type="Script" uid="uid://b5hwoukmk4tcg" path="res://Scripts/Pieces/Jiang.cs" id="2_2l1ls"]
+
+[node name="k" groups=["B"] instance=ExtResource("1_h8jd4")]
+script = ExtResource("2_2l1ls")
+Side = 2
+
+[node name="Sprite2D" parent="." index="0"]
+region_rect = Rect2(2, 0, 165, 186)

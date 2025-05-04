@@ -1,0 +1,45 @@
+[gd_resource type="Theme" load_steps=5 format=3 uid="uid://cipaje0juqv5p"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_d48va"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2aet1"]
+bg_color = Color(0.717769, 0.60601, 0.386476, 1)
+border_width_bottom = 4
+border_color = Color(0.369122, 0.300582, 0.163954, 1)
+border_blend = true
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d48va"]
+bg_color = Color(0.717769, 0.60601, 0.386476, 1)
+border_width_bottom = 6
+border_color = Color(0.369122, 0.300582, 0.163954, 1)
+border_blend = true
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+shadow_size = 4
+shadow_offset = Vector2(0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4tgpq"]
+bg_color = Color(0.39496, 0.322246, 0.17705, 1)
+border_width_bottom = 6
+border_color = Color(0.369122, 0.300582, 0.163954, 1)
+border_blend = true
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+shadow_size = 4
+shadow_offset = Vector2(0, 1)
+
+[resource]
+Button/font_sizes/font_size = 64
+Button/styles/focus = SubResource("StyleBoxEmpty_d48va")
+Button/styles/hover = SubResource("StyleBoxFlat_2aet1")
+Button/styles/normal = SubResource("StyleBoxFlat_d48va")
+Button/styles/pressed = SubResource("StyleBoxFlat_4tgpq")
+HBoxContainer/constants/separation = 16

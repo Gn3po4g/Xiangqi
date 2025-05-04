@@ -1,0 +1,68 @@
+[gd_scene load_steps=15 format=3 uid="uid://c746gvq81rpxo"]
+
+[ext_resource type="Texture2D" uid="uid://dghex4c2g8w4n" path="res://Assets/Images/board.png" id="1_6irci"]
+[ext_resource type="Script" uid="uid://borbcvmu1yd48" path="res://Scenes/Board/Board.cs" id="1_getcc"]
+[ext_resource type="TileSet" uid="uid://dbpuontqsy86" path="res://Resources/Board.tres" id="2_pl1be"]
+[ext_resource type="Script" uid="uid://cv3bh7nlbdfcl" path="res://Scripts/PieceMover.cs" id="3_3smc4"]
+[ext_resource type="Script" uid="uid://6dpv4ysvhdgb" path="res://Scripts/StateMachine/GameStateMachine.cs" id="3_ojbfq"]
+[ext_resource type="Script" uid="uid://cayy8fou1ty3y" path="res://Scripts/PieceLayer.cs" id="3_pl1be"]
+[ext_resource type="Script" uid="uid://bily8i6ke4e1g" path="res://Scripts/StateMachine/States/RedTurn.cs" id="4_3smc4"]
+[ext_resource type="Script" uid="uid://6jdc4uhgrkuu" path="res://Scripts/PieceGrid.cs" id="4_4sjlu"]
+[ext_resource type="Script" uid="uid://2bdw5fmw3ggv" path="res://Scripts/StateMachine/States/BlackTurn.cs" id="5_12bqf"]
+[ext_resource type="Script" uid="uid://baqxikq1wgxrd" path="res://Scripts/StateMachine/States/RedSelect.cs" id="6_pl1be"]
+[ext_resource type="Script" uid="uid://dhn5uvwouh0w7" path="res://Scripts/StateMachine/States/BlackSelect.cs" id="7_4sjlu"]
+[ext_resource type="Script" uid="uid://civvk8p2hiqk4" path="res://Scripts/Engine/Pikafish.cs" id="9_3smc4"]
+[ext_resource type="Script" uid="uid://d30xb7kfb0lee" path="res://Scripts/StateMachine/States/RedAi.cs" id="11_6irci"]
+[ext_resource type="Script" uid="uid://cnia47jcl10sg" path="res://Scripts/StateMachine/States/BlackAi.cs" id="12_getcc"]
+
+[node name="Board" type="Node2D"]
+script = ExtResource("1_getcc")
+
+[node name="棋盘" type="Sprite2D" parent="."]
+scale = Vector2(1.6, 1.6)
+texture = ExtResource("1_6irci")
+centered = false
+
+[node name="Pieces" type="TileMapLayer" parent="."]
+position = Vector2(20.8, 35.2)
+tile_set = ExtResource("2_pl1be")
+script = ExtResource("3_pl1be")
+
+[node name="PieceGrid" type="Node2D" parent="Pieces"]
+script = ExtResource("4_4sjlu")
+
+[node name="PieceMover" type="Node" parent="." node_paths=PackedStringArray("PieceMapLayer", "Grid")]
+script = ExtResource("3_3smc4")
+_moveTime = 0.2
+PieceMapLayer = NodePath("../Pieces")
+Grid = NodePath("../Pieces/PieceGrid")
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("InitialState", "Grid", "PieceMover", "GameEngine")]
+script = ExtResource("3_ojbfq")
+InitialState = NodePath("RedTurn")
+Grid = NodePath("../Pieces/PieceGrid")
+PieceMover = NodePath("../PieceMover")
+GameEngine = NodePath("../Engine")
+
+[node name="RedTurn" type="Node" parent="StateMachine"]
+script = ExtResource("4_3smc4")
+
+[node name="BlackTurn" type="Node" parent="StateMachine"]
+script = ExtResource("5_12bqf")
+
+[node name="RedSelect" type="Node" parent="StateMachine"]
+script = ExtResource("6_pl1be")
+
+[node name="BlackSelect" type="Node" parent="StateMachine"]
+script = ExtResource("7_4sjlu")
+
+[node name="RedAi" type="Node" parent="StateMachine"]
+script = ExtResource("11_6irci")
+
+[node name="BlackAi" type="Node" parent="StateMachine"]
+script = ExtResource("12_getcc")
+
+[node name="Engine" type="Node" parent="."]
+script = ExtResource("9_3smc4")
+
+[connection signal="BoardClicked" from="Pieces" to="StateMachine" method="OnClickBoard"]
