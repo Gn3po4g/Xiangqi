@@ -8,11 +8,19 @@ public partial class PieceMover : Node
 {
     [Export] private float _moveTime = 1f;
     private Tween? _moveTween;
+    private AudioStreamPlayer? _eatPlayer;
+    private AudioStreamPlayer? _movePlayer;
 
     [Export] public required PieceLayer PieceMapLayer { get; set; }
     [Export] public required PieceGrid Grid { get; set; }
 
     public bool IsMoving => _moveTween?.IsRunning() ?? false;
+
+    public override void _Ready()
+    {
+        _eatPlayer = GetNode<AudioStreamPlayer>("EatPlayer");
+        _movePlayer = GetNode<AudioStreamPlayer>("MovePlayer");
+    }
 
     public Vector2I[] ReadyToMove(Vector2I tile)
     {
@@ -42,8 +50,16 @@ public partial class PieceMover : Node
         _moveTween.TweenCallback(Callable.From(() =>
         {
             piece.ZIndex = zIndex;
-            target?.QueueFree();
             onFinish?.Invoke();
+            if (target != null)
+            {
+                target.QueueFree();
+                _eatPlayer?.Play();
+            }
+            else
+            {
+                _movePlayer?.Play();
+            }
         }));
         PieceMapLayer.ShowMove(from, to);
     }

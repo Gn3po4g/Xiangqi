@@ -13,6 +13,10 @@ corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d48va"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
 bg_color = Color(0.717769, 0.60601, 0.386476, 1)
 border_width_bottom = 6
 border_color = Color(0.369122, 0.300582, 0.163954, 1)
@@ -37,9 +41,10 @@ shadow_size = 4
 shadow_offset = Vector2(0, 1)
 
 [resource]
-Button/font_sizes/font_size = 64
+Button/font_sizes/font_size = 48
 Button/styles/focus = SubResource("StyleBoxEmpty_d48va")
 Button/styles/hover = SubResource("StyleBoxFlat_2aet1")
 Button/styles/normal = SubResource("StyleBoxFlat_d48va")
 Button/styles/pressed = SubResource("StyleBoxFlat_4tgpq")
 HBoxContainer/constants/separation = 16
+TooltipLabel/font_sizes/font_size = 48

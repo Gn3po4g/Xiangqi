@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://c746gvq81rpxo"]
+[gd_scene load_steps=17 format=3 uid="uid://c746gvq81rpxo"]
 
 [ext_resource type="Texture2D" uid="uid://dghex4c2g8w4n" path="res://Assets/Images/board.png" id="1_6irci"]
 [ext_resource type="Script" uid="uid://borbcvmu1yd48" path="res://Scenes/Board/Board.cs" id="1_getcc"]
@@ -11,6 +11,8 @@
 [ext_resource type="Script" uid="uid://2bdw5fmw3ggv" path="res://Scripts/StateMachine/States/BlackTurn.cs" id="5_12bqf"]
 [ext_resource type="Script" uid="uid://baqxikq1wgxrd" path="res://Scripts/StateMachine/States/RedSelect.cs" id="6_pl1be"]
 [ext_resource type="Script" uid="uid://dhn5uvwouh0w7" path="res://Scripts/StateMachine/States/BlackSelect.cs" id="7_4sjlu"]
+[ext_resource type="AudioStream" uid="uid://7xrmmte7ukv4" path="res://Assets/Sounds/Eat.wav" id="7_ic635"]
+[ext_resource type="AudioStream" uid="uid://vwl1pec6pd71" path="res://Assets/Sounds/Move.wav" id="8_6rptl"]
 [ext_resource type="Script" uid="uid://civvk8p2hiqk4" path="res://Scripts/Engine/Pikafish.cs" id="9_3smc4"]
 [ext_resource type="Script" uid="uid://d30xb7kfb0lee" path="res://Scripts/StateMachine/States/RedAi.cs" id="11_6irci"]
 [ext_resource type="Script" uid="uid://cnia47jcl10sg" path="res://Scripts/StateMachine/States/BlackAi.cs" id="12_getcc"]
@@ -36,6 +38,12 @@ script = ExtResource("3_3smc4")
 _moveTime = 0.2
 PieceMapLayer = NodePath("../Pieces")
 Grid = NodePath("../Pieces/PieceGrid")
+
+[node name="EatPlayer" type="AudioStreamPlayer" parent="PieceMover"]
+stream = ExtResource("7_ic635")
+
+[node name="MovePlayer" type="AudioStreamPlayer" parent="PieceMover"]
+stream = ExtResource("8_6rptl")
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("InitialState", "Grid", "PieceMover", "GameEngine")]
 script = ExtResource("3_ojbfq")
