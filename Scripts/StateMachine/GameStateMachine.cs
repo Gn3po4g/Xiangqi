@@ -17,30 +17,30 @@ public partial class GameStateMachine : Node
 
     public int Round { get; set; }
 
-    private BaseState? _currentState;
-
-    public BaseState CurrentState
+    private BaseState CurrentState
     {
-        get => _currentState ?? InitialState;
+        get;
         set
         {
-            _currentState?.Exit();
-            _currentState = value;
-            _currentState.Enter();
+            field.Exit();
+            field = value;
+            field.Enter();
         }
-    }
+    } = new();
+
 
     public override void _Ready()
     {
         GameEngine.Start();
         ToSignal(Owner, Node.SignalName.Ready).GetAwaiter().GetResult();
-        CurrentState.Enter();
+        ResetState();
     }
 
     public void ResetState()
     {
         SelectedTile = null;
         CurrentState = InitialState;
+        SetProcess(true);
     }
 
     public override void _Process(double delta)
