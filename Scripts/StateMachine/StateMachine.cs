@@ -3,7 +3,7 @@ using Xiangqi.Scripts.Engine;
 
 namespace Xiangqi.Scripts.StateMachine;
 
-public partial class GameStateMachine : Node
+public partial class StateMachine : Node
 {
     [Export] public required BaseState InitialState { get; set; }
     [Export] public required PieceGrid Grid { get; set; }
@@ -53,7 +53,7 @@ public partial class GameStateMachine : Node
         CurrentState.ClickBoard(coords);
     }
 
-    public void SwitchTo(string name)
+    public void SwitchTo(NodePath name)
     {
         if (!HasNode(name))
         {

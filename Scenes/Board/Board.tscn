@@ -1,21 +1,18 @@
-[gd_scene load_steps=17 format=3 uid="uid://c746gvq81rpxo"]
+[gd_scene load_steps=14 format=3 uid="uid://c746gvq81rpxo"]
 
 [ext_resource type="Texture2D" uid="uid://dghex4c2g8w4n" path="res://Assets/Images/board.png" id="1_6irci"]
 [ext_resource type="Script" uid="uid://borbcvmu1yd48" path="res://Scenes/Board/Board.cs" id="1_getcc"]
 [ext_resource type="TileSet" uid="uid://dbpuontqsy86" path="res://Resources/Board.tres" id="2_pl1be"]
 [ext_resource type="Script" uid="uid://cv3bh7nlbdfcl" path="res://Scripts/PieceMover.cs" id="3_3smc4"]
-[ext_resource type="Script" uid="uid://6dpv4ysvhdgb" path="res://Scripts/StateMachine/GameStateMachine.cs" id="3_ojbfq"]
 [ext_resource type="Script" uid="uid://cayy8fou1ty3y" path="res://Scripts/PieceLayer.cs" id="3_pl1be"]
-[ext_resource type="Script" uid="uid://bily8i6ke4e1g" path="res://Scripts/StateMachine/States/RedTurn.cs" id="4_3smc4"]
 [ext_resource type="Script" uid="uid://6jdc4uhgrkuu" path="res://Scripts/PieceGrid.cs" id="4_4sjlu"]
-[ext_resource type="Script" uid="uid://2bdw5fmw3ggv" path="res://Scripts/StateMachine/States/BlackTurn.cs" id="5_12bqf"]
-[ext_resource type="Script" uid="uid://baqxikq1wgxrd" path="res://Scripts/StateMachine/States/RedSelect.cs" id="6_pl1be"]
-[ext_resource type="Script" uid="uid://dhn5uvwouh0w7" path="res://Scripts/StateMachine/States/BlackSelect.cs" id="7_4sjlu"]
 [ext_resource type="AudioStream" uid="uid://7xrmmte7ukv4" path="res://Assets/Sounds/Eat.wav" id="7_ic635"]
 [ext_resource type="AudioStream" uid="uid://vwl1pec6pd71" path="res://Assets/Sounds/Move.wav" id="8_6rptl"]
 [ext_resource type="Script" uid="uid://civvk8p2hiqk4" path="res://Scripts/Engine/Pikafish.cs" id="9_3smc4"]
-[ext_resource type="Script" uid="uid://d30xb7kfb0lee" path="res://Scripts/StateMachine/States/RedAi.cs" id="11_6irci"]
-[ext_resource type="Script" uid="uid://cnia47jcl10sg" path="res://Scripts/StateMachine/States/BlackAi.cs" id="12_getcc"]
+[ext_resource type="Script" uid="uid://b85rfk2kbkjyd" path="res://Scripts/StateMachine/StateMachine.cs" id="9_seexq"]
+[ext_resource type="Script" uid="uid://btoqs0jr20ffv" path="res://Scripts/StateMachine/States/StartState.cs" id="10_seexq"]
+[ext_resource type="Script" uid="uid://bd5hxiw1xo35e" path="res://Scripts/StateMachine/States/SelectState.cs" id="11_06pi6"]
+[ext_resource type="Script" uid="uid://bb3klvabvxqkx" path="res://Scripts/StateMachine/States/AiState.cs" id="12_dqxik"]
 
 [node name="Board" type="Node2D"]
 script = ExtResource("1_getcc")
@@ -46,29 +43,49 @@ stream = ExtResource("7_ic635")
 stream = ExtResource("8_6rptl")
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("InitialState", "Grid", "PieceMover", "GameEngine")]
-script = ExtResource("3_ojbfq")
-InitialState = NodePath("RedTurn")
+script = ExtResource("9_seexq")
+InitialState = NodePath("RedStart")
 Grid = NodePath("../Pieces/PieceGrid")
 PieceMover = NodePath("../PieceMover")
 GameEngine = NodePath("../Engine")
 
-[node name="RedTurn" type="Node" parent="StateMachine"]
-script = ExtResource("4_3smc4")
-
-[node name="BlackTurn" type="Node" parent="StateMachine"]
-script = ExtResource("5_12bqf")
+[node name="RedStart" type="Node" parent="StateMachine"]
+script = ExtResource("10_seexq")
+Side = 1
+AiState = NodePath("../RedAi")
+SelectState = NodePath("../RedSelect")
 
 [node name="RedSelect" type="Node" parent="StateMachine"]
-script = ExtResource("6_pl1be")
-
-[node name="BlackSelect" type="Node" parent="StateMachine"]
-script = ExtResource("7_4sjlu")
+script = ExtResource("11_06pi6")
+Side = 1
+AiState = NodePath("../RedAi")
+NextState = NodePath("../BlackStart")
+StartState = NodePath("../RedStart")
 
 [node name="RedAi" type="Node" parent="StateMachine"]
-script = ExtResource("11_6irci")
+script = ExtResource("12_dqxik")
+Side = 1
+NextState = NodePath("../BlackStart")
+StartState = NodePath("../RedStart")
+
+[node name="BlackStart" type="Node" parent="StateMachine"]
+script = ExtResource("10_seexq")
+Side = 2
+AiState = NodePath("../BlackAi")
+SelectState = NodePath("../BlackSelect")
+
+[node name="BlackSelect" type="Node" parent="StateMachine"]
+script = ExtResource("11_06pi6")
+Side = 2
+AiState = NodePath("../BlackAi")
+NextState = NodePath("../RedStart")
+StartState = NodePath("../BlackStart")
 
 [node name="BlackAi" type="Node" parent="StateMachine"]
-script = ExtResource("12_getcc")
+script = ExtResource("12_dqxik")
+Side = 2
+NextState = NodePath("../RedStart")
+StartState = NodePath("../BlackStart")
 
 [node name="Engine" type="Node" parent="."]
 script = ExtResource("9_3smc4")

@@ -6,13 +6,13 @@ namespace Xiangqi.Scenes.Board;
 
 public partial class Board : Node2D
 {
-    private GameStateMachine? _stateMachine;
+    private StateMachine? _stateMachine;
     private PieceLayer? _pieceLayer;
     private PieceGrid? _grid;
 
     public override void _Ready()
     {
-        _stateMachine = GetNode<GameStateMachine>("StateMachine");
+        _stateMachine = GetNode<StateMachine>("StateMachine");
         _pieceLayer = GetNode<PieceLayer>("Pieces");
         _grid = GetNode<PieceGrid>("Pieces/PieceGrid");
     }

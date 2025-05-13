@@ -5,7 +5,7 @@ namespace Xiangqi.Scripts.StateMachine;
 
 public partial class BaseState : Node
 {
-    protected GameStateMachine StateMachine => GetParent<GameStateMachine>();
+    protected StateMachine StateMachine => GetParent<StateMachine>();
 
     public virtual void Enter()
     {

@@ -3,15 +3,18 @@ using Xiangqi.Scripts.Pieces;
 
 namespace Xiangqi.Scripts.StateMachine.States;
 
-public partial class BlackAi : BaseState
+public partial class AiState : BaseState
 {
-    private Piece? _selectedPiece;
     private bool _stateEnd;
+
+    [Export] public PieceSide Side { get; set; } = PieceSide.None;
+    [Export] public NodePath NextState { get; set; } = "";
+    [Export] public NodePath StartState { get; set; } = "";
 
     public override void Enter()
     {
         StateMachine.GameEngine.EngineOutputted += OnEngineOutput;
-        StateMachine.GameEngine.SetFen($"{StateMachine.Grid.GetGridFen()} b - - 0 {StateMachine.Round}");
+        StateMachine.GameEngine.SetFen($"{StateMachine.Grid.GetGridFen()} {(Side == PieceSide.Red ? 'w' : 'b')} - - 0 {StateMachine.Round}");
         StateMachine.GameEngine.CalcMove();
     }
 
@@ -25,13 +28,14 @@ public partial class BlackAi : BaseState
     {
         if (_stateEnd)
         {
-            StateMachine.SwitchTo(StateMachine.RedAi ? nameof(RedAi) : nameof(RedTurn));
+            StateMachine.SwitchTo(GetNode(NextState).GetPath());
             return;
         }
 
-        if (!StateMachine.BlackAi)
+        if (Side == PieceSide.Red && !StateMachine.RedAi ||
+            Side == PieceSide.Black && !StateMachine.BlackAi)
         {
-            StateMachine.SwitchTo(nameof(BlackTurn));
+            StateMachine.SwitchTo(GetNode(StartState).GetPath());
         }
     }
 
@@ -49,7 +53,6 @@ public partial class BlackAi : BaseState
                 _stateEnd = true;
                 StateMachine.SetProcess(true);
             });
-            StateMachine.Round++;
         }).CallDeferred();
     }
 }
